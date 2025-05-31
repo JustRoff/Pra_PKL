@@ -1,0 +1,33 @@
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 15px;
+}
+
+.product-image img {
+    max-width: 100px;
+    border-radius: 10px;
+}
+
+.product-details {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.product-actions {
+    text-align: right;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.subtotal {
+    color: orangered;
+    font-weight: bold;
+}
