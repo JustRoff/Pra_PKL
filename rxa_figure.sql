@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Bulan Mei 2025 pada 11.06
+-- Waktu pembuatan: 31 Bulan Mei 2025 pada 17.51
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -45,6 +45,30 @@ INSERT INTO `admin` (`id_admin`, `username`, `password`, `email`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `alamat`
+--
+
+CREATE TABLE `alamat` (
+  `id_alamat` int(11) NOT NULL,
+  `nama_alamat` varchar(100) NOT NULL,
+  `latitude` decimal(20,8) NOT NULL,
+  `longitude` decimal(20,8) NOT NULL,
+  `deskripsi` varchar(225) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `alamat`
+--
+
+INSERT INTO `alamat` (`id_alamat`, `nama_alamat`, `latitude`, `longitude`, `deskripsi`, `id_user`) VALUES
+(1, '', -7.34595754, 109.34024617, 'home', 1),
+(2, '', -8.46884586, 115.29612420, 'dsadasd', 1),
+(3, 'home', -2.29551613, 121.26619095, 'Gaktau ini lokasi apa njir', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `keranjang`
 --
 
@@ -61,8 +85,9 @@ CREATE TABLE `keranjang` (
 --
 
 INSERT INTO `keranjang` (`id_keranjang`, `jumlah_item`, `id_produk`, `id_user`, `subtotal`) VALUES
-(2, 1, 10, 1, 800000),
-(3, 2, 9, 1, 1600000);
+(2, 2, 10, 1, 1600000),
+(11, 2, 10, 4, 1600000),
+(12, 1, 11, 1, 1300000);
 
 -- --------------------------------------------------------
 
@@ -115,13 +140,13 @@ INSERT INTO `produk` (`id_produk`, `nama_produk`, `kategori`, `tanggal_terbit`, 
 CREATE TABLE `transaksi` (
   `id_transaksi` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
+  `id_admin` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_alamat` int(11) NOT NULL,
   `id_keranjang` int(11) DEFAULT NULL,
   `tanggal_pemesanan` date NOT NULL,
-  `id_admin` int(11) NOT NULL,
   `jumlah_produk` int(11) NOT NULL,
   `total_harga` int(11) NOT NULL,
-  `total_bayar` int(11) DEFAULT NULL,
   `ongkir` int(11) NOT NULL,
   `status` enum('Belum dibayar','Dibayar') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -147,7 +172,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `Date_Of_Birth`) VALUES
 (1, 'botak', '202cb962ac59075b964b07152d234b70', 'asal', '2025-03-11'),
 (2, 'Adit', '698d51a19d8a121ce581499d7b701668', 'rhangay123@gmail.com', '2025-03-01'),
-(3, 'supri', '698d51a19d8a121ce581499d7b701668', 'dsa@gmail.com', '2025-05-02');
+(3, 'supri', '698d51a19d8a121ce581499d7b701668', 'dsa@gmail.com', '2025-05-02'),
+(4, 'Julia', '20aee3a5f4643755a79ee5f6a73050ac', 'blablaba0@gmail.com', '2012-02-08');
 
 --
 -- Indexes for dumped tables
@@ -160,6 +186,13 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `unique_username` (`username`);
+
+--
+-- Indeks untuk tabel `alamat`
+--
+ALTER TABLE `alamat`
+  ADD PRIMARY KEY (`id_alamat`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indeks untuk tabel `keranjang`
@@ -184,7 +217,8 @@ ALTER TABLE `transaksi`
   ADD KEY `id_produk` (`id_produk`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_keranjang` (`id_keranjang`),
-  ADD KEY `fk_admin_transaksi` (`id_admin`);
+  ADD KEY `id_admin` (`id_admin`),
+  ADD KEY `id_alamat` (`id_alamat`);
 
 --
 -- Indeks untuk tabel `users`
@@ -205,10 +239,16 @@ ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `alamat`
+--
+ALTER TABLE `alamat`
+  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `produk`
@@ -226,11 +266,17 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `alamat`
+--
+ALTER TABLE `alamat`
+  ADD CONSTRAINT `alamat_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
 -- Ketidakleluasaan untuk tabel `keranjang`
@@ -249,10 +295,11 @@ ALTER TABLE `produk`
 -- Ketidakleluasaan untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `fk_admin_transaksi` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`),
   ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
-  ADD CONSTRAINT `transaksi_ibfk_3` FOREIGN KEY (`id_keranjang`) REFERENCES `keranjang` (`id_keranjang`);
+  ADD CONSTRAINT `transaksi_ibfk_3` FOREIGN KEY (`id_keranjang`) REFERENCES `keranjang` (`id_keranjang`),
+  ADD CONSTRAINT `transaksi_ibfk_4` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`),
+  ADD CONSTRAINT `transaksi_ibfk_5` FOREIGN KEY (`id_alamat`) REFERENCES `alamat` (`id_alamat`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
