@@ -10,7 +10,7 @@ if (!isset($_SESSION['checkout'])) {
 $data = $_SESSION['checkout'];
 $subtotal = $data['subtotal'] ?? 0;
 $ongkir = $data['ongkir'] ?? 0;
-$total = $subtotal + $ongkir;
+$total_akhir = $data['total_akhir'] ?? 0;
 $total_barang = $data['total_barang'] ?? 0;
 
 $checkout_items = $data['checkout_items'] ?? [];
@@ -32,6 +32,7 @@ if (!empty($checkout_items)) {
         $produk_dibeli[] = $row;
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -268,11 +269,13 @@ if (!empty($checkout_items)) {
         </div>
         <div class="summary-row total">
             <span>💳 TOTAL PEMBAYARAN</span>
-            <span>Rp<?= number_format($total, 0, ',', '.') ?></span>
+            <span>Rp<?= number_format($total_akhir, 0, ',', '.') ?></span>
         </div>
     </div>
 
-    <form action="proses_upload.php" method="post" enctype="multipart/form-data">
+    <form action="proses_pembayran.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="tanggal_pemesanan">
+
         <label for="provider">🏦 Pilih Provider Pembayaran:</label>
         <select name="provider" id="provider" onchange="showPaymentInfo()" required>
             <option value="">-- Pilih Provider --</option>
@@ -292,7 +295,7 @@ if (!empty($checkout_items)) {
         </div>
 
         <label for="bukti">📸 Upload Bukti Pembayaran:</label>
-        <input type="file" name="bukti" id="bukti" accept="image/*" required>
+        <input type="file" name="bukti_pembayaran" id="bukti" accept="image/*" required>
         
         <div style="font-size: 12px; color: #6c757d; margin-top: 5px; margin-bottom: 15px;">
             * Format yang didukung: JPG, PNG, GIF (Max: 5MB)
