@@ -21,6 +21,7 @@ $alamat_id = $_POST['alamat_id'] ?? '';
 $checkout_items = $_POST['checkout_items'] ?? [];
 $checkout_items = array_map('intval', $checkout_items);
 $selected_ids = implode(',', $checkout_items);
+$produk = $selected_ids;
 
 // Total dari form
 $subtotal = $_POST['subtotal'] ?? 0;
@@ -40,18 +41,19 @@ if ($data_alamat = mysqli_fetch_assoc($result_alamat)) {
 }
 
 // Simpan ke session
-$_SESSION['checkout'] = array(
+$_SESSION['checkout'] = [
     'nama_pemesan' => $nama,
     'email' => $email,
     'alamat_id' => $alamat_id,
     'alamat_detail' => $alamat_terpilih,
     'pulau' => $pulau_terpilih,
     'checkout_items' => $checkout_items,
+    'produk' => $produk,
     'subtotal' => $subtotal,
     'ongkir' => $ongkir,
     'total_akhir' => $total_akhir,
     'total_barang' => $total_barang
-);
+];
 
 // Redirect ke halaman upload bukti pembayaran
 header("Location: upload_bukti.php?from=" . urlencode($from_page) . "&nama=" . urlencode($nama));
