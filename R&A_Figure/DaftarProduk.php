@@ -13,12 +13,12 @@ $selected_manufacturers = isset($_GET['manufacturers']) ? $_GET['manufacturers']
 $start_month = isset($_GET['start_month']) ? $_GET['start_month'] : null;
 $end_month = isset($_GET['end_month']) ? $_GET['end_month'] : null;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+
 // Query untuk mengambil produk
 $sql_produk = "SELECT * FROM produk WHERE 1=1";
 
 $min_price = isset($_GET['min_price']) ? (int)str_replace('.', '', $_GET['min_price']) : null;
 $max_price = isset($_GET['max_price']) ? (int)str_replace('.', '', $_GET['max_price']) : null;
-
 
 if (!empty($keywords)) {
     $sql_produk .= " AND nama_produk LIKE '%$keywords%'";
@@ -52,20 +52,22 @@ if (!empty($end_month)) {
     $sql_produk .= " AND tanggal_terbit <= '$end_month'";
 }
 
+// Modified sorting section - prioritize stock availability first
 switch ($sort) {
     case 'oldest':
-        $sql_produk .= " ORDER BY tanggal_terbit ASC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), tanggal_terbit ASC";
         break;
     case 'highest_price':
-        $sql_produk .= " ORDER BY harga DESC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), harga DESC";
         break;
     case 'lowest_price':
-        $sql_produk .= " ORDER BY harga ASC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), harga ASC";
         break;
     default:
-        $sql_produk .= " ORDER BY tanggal_terbit DESC"; // default = latest
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), tanggal_terbit DESC"; // default = latest
         break;
 }
+
 $query = mysqli_query($koneksi, $sql_produk);
 $jumlah_hasil = mysqli_num_rows($query);
 
@@ -114,7 +116,6 @@ while ($row = mysqli_fetch_assoc($manufacturer_query)) {
             <option value="oldest" <?= ($sort == 'oldest') ? 'selected' : '' ?>>Oldest</option>
             <option value="highest_price" <?= ($sort == 'highest_price') ? 'selected' : '' ?>>Highest Price</option>
             <option value="lowest_price" <?= ($sort == 'lowest_price') ? 'selected' : '' ?>>Lowest Price</option>
-
         </select>
 
         <!-- Tombol Modal -->
@@ -122,24 +123,23 @@ while ($row = mysqli_fetch_assoc($manufacturer_query)) {
         <button type="button" class="rounded-button btn-orange" onclick="document.getElementById('ManufacturerModal').style.display='block'">Search by Manufacturer</button>
     </div>
 
-        <!-- Filter Harga -->
-        <div class="price-filter">
-            <label>Harga Min:</label>
-            <input type="number" name="min_price" class="search-input" id="minPrice" placeholder="Min" value="<?= isset($_GET['min_price']) ? $_GET['min_price'] : '' ?>" min="0">
-            
-            <label>Harga Max:</label>
-            <input type="number" name="max_price" class="search-input" id="maxPrice" placeholder="Max" value="<?= isset($_GET['max_price']) ? $_GET['max_price'] : '' ?>" min="0">
-        </div>
+    <!-- Filter Harga -->
+    <div class="price-filter">
+        <label>Harga Min:</label>
+        <input type="number" name="min_price" class="search-input" id="minPrice" placeholder="Min" value="<?= isset($_GET['min_price']) ? $_GET['min_price'] : '' ?>" min="0">
+        
+        <label>Harga Max:</label>
+        <input type="number" name="max_price" class="search-input" id="maxPrice" placeholder="Max" value="<?= isset($_GET['max_price']) ? $_GET['max_price'] : '' ?>" min="0">
+    </div>
 
-        <!-- Filter Bulan -->
-        <div class="month-filter">
-            <label>Bulan Terbit Dari:</label>
-            <input type="text" id="startMonth" name="start_month" class="search-input" value="<?= isset($_GET['start_month']) ? $_GET['start_month'] : '' ?>" placeholder="Pilih Bulan Mulai">
+    <!-- Filter Bulan -->
+    <div class="month-filter">
+        <label>Bulan Terbit Dari:</label>
+        <input type="text" id="startMonth" name="start_month" class="search-input" value="<?= isset($_GET['start_month']) ? $_GET['start_month'] : '' ?>" placeholder="Pilih Bulan Mulai">
 
-            <label>Sampai:</label>
-            <input type="text" id="endMonth" name="end_month" class="search-input" value="<?= isset($_GET['end_month']) ? $_GET['end_month'] : '' ?>" placeholder="Pilih Bulan Akhir">
-        </div>
-
+        <label>Sampai:</label>
+        <input type="text" id="endMonth" name="end_month" class="search-input" value="<?= isset($_GET['end_month']) ? $_GET['end_month'] : '' ?>" placeholder="Pilih Bulan Akhir">
+    </div>
 
     <!-- Modal Kategori -->
     <div id="KategoriModal" class="filter-modal">
@@ -185,12 +185,11 @@ while ($row = mysqli_fetch_assoc($manufacturer_query)) {
     </a>
 <?php } ?>
     <?php } else { ?>
-        <img src="img_properties\HD-wallpaper-peek-a-boo-inside-girls-anime-door.jpg" alt="Tobangado">
+        <img src="img_properties/HD-wallpaper-peek-a-boo-inside-girls-anime-door.jpg" alt="Tobangado">
         <p style="text-align: center; font-size: 18px; color: red;">Maaf, sepertinya barang yang kamu cari tidak ada.</p>
     <?php } ?>
     <a href="dashboard.php"><button>dashboard</button></a>
 </div>
-?>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
