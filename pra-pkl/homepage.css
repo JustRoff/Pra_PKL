@@ -1,0 +1,181 @@
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+header {
+      position: sticky;
+      top: 0;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.logo {
+    padding-left: 20px;
+    width: 220px;
+    height: 65px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+.profile {
+    height: 32px;
+    vertical-align: middle;
+    margin-left: 15px;
+}
+
+.carousel-container {
+      position: relative;
+      background: #333;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+.carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+.carousel img {
+      min-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+.carousel-button {
+      position: absolute;
+      top: 10px;
+      background: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+.carousel-button.prev {
+      left: 10px;
+    }
+
+.carousel-button.next {
+      right: 10px;
+    }
+
+.search-section {
+      text-align: center;
+      padding: 20px;
+    }
+
+.search-section input, .search-section select, .search-section button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+    }
+
+.banner-section {
+      padding: 20px;
+      text-align: center;
+    }
+
+.banner-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+.banner-grid img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+    }
+
+.product-section {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+
+.product-card {
+      width: 200px;
+      text-align: center;
+    }
+
+.product-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+.see-more {
+      text-align: center;
+      margin: 20px;
+    }
+
+.see-more button {
+      padding: 10px 30px;
+      background: orange;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+footer {
+    margin-top: 80px;
+    border-top: 3px solid orange;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.social-icons img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 20px; /* Jarak antar link */
+    justify-content: flex-end; /* Sejajarkan ke kanan */
+    align-items: center;
+}
+
+.footer-right a {
+    text-decoration: none; /* Hilangkan underline */
+    color: #222;
+    font-size: 15px;
+    font-family: monospace;
+}
