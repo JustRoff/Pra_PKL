@@ -1,48 +1,44 @@
-body {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Courier New', Courier, monospace;
-        background: #fff;
+}
+
+body {
+    background-color: #fff;
 }
 
 header {
     position: sticky;
     top: 0;
-    z-index: 1000;
-    background: #fff;
+    background-color: white;
+    border-bottom: 4px solid #222;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 10px;
-    border-bottom: 4px solid black;
+    z-index: 1000;
 }
 
 .logo {
-    /* height: 30px; */
-    /* width: 30px; */
     padding-left: 20px;
-    width: 200px;
-    height: 65px
+    width: 220px;
+    height: 65px;
 }
-
-/*nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}*/
 
 nav a {
     margin: 0 10px;
     text-decoration: none;
     color: black;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .profile {
     height: 32px;
     vertical-align: middle;
-    /* border-radius: 50%; */
+    /* margin-left: 15px; */
 }
 
 .profile-icon a:hover {
@@ -50,73 +46,60 @@ nav a {
     background-color: transparent;
 }
 
-main {
+.produk-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    margin: 20px 20px;
+    gap: 40px;
+    /* margin-top: 20px;
+    margin-bottom: 10px; */
+    /* padding: 20px; */
 }
 
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+.produk-img img {
+    width: 450px;
+    height: 400px;
+    object-fit: cover;  
+    border-radius: 25px;
 }
 
-.login-box h2 {
-    margin-bottom: 20px;
+.harga {
+    color: #444;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form label {
-    text-align: left;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-form input {
-    margin-top: 5px;
-    padding: 8px;
-    border: 1px solid orange;
-    border-radius: 2px;
-}
-
-form button {
-    margin-top: 20px;
-    padding: 10px;
+.buttons {
+    padding: 8px 16px;
     background: orange;
     border: none;
+    border-radius: 4px;
     color: white;
-    border-radius: 20px;
     cursor: pointer;
-}
-
-.forgot {
-    margin-top: 10px;
-    font-size: 12px;
 }
 
 hr {
-    margin: 30px 0;
-    border: none;
-    border-top: 1px solid lightgray;
+    margin: 20px 0;
 }
 
-.register p {
-    margin-bottom: 10px;
+.deskripsi {
+    margin: 3% 1%;
 }
 
-.register button {
-    padding: 10px 20px;
-    background: orange;
-    border: none;
-    color: white;
-    border-radius: 20px;
-    cursor: pointer;
+.deskripsi h2 {
+    border-bottom: 1px solid #999;
+    margin-bottom: 1%;
+}
+
+.spesifikasi {
+    margin: 1% 1%;
+}
+
+.spesifikasi h2 {
+    border-bottom: 1px solid #999;
+    margin-bottom: 1%;
 }
 
 footer {
