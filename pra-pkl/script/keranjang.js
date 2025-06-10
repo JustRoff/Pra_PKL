@@ -30,7 +30,7 @@ document.querySelectorAll('.btn-minus').forEach((btn, index) => {
     const harga = parseInt(input.dataset.harga);
     const id = input.dataset.id;
     const subtotal = harga * qty;
-    document.querySelectorAll('.subtotal')[index].innerText = 'Rp' + subtotal.toLocaleString('id-ID');
+    document.querySelectorAll('.subtotal')[index].innerText = 'Rp ' + subtotal.toLocaleString('id-ID');
   
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "UpdateKeranjang.php", true);
@@ -87,7 +87,7 @@ function updateTotalBayar() {
     }
   });
 
-  document.getElementById('total-text').innerText = 'Rp' + total.toLocaleString('id-ID');
+  document.getElementById('total-text').innerText = 'Rp ' + total.toLocaleString('id-ID');
 }
 
 document.querySelectorAll('.select-item').forEach((cb) => {
