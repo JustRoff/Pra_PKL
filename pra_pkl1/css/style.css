@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+.search-bar {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.search-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.rounded-button {
+border-radius: 30px;
+padding: 10px 20px;
+font-weight: bold;
+border: none;
+cursor: pointer;
+transition: 0.3s ease;
+}
+
+.btn-orange {
+background-color: orange;
+color: white;
+}
+
+.btn-orange:hover {
+background-color: darkorange;
+}
+
+
+.btn-gray {
+background-color: gray;
+color: white;
+}
+
+
+.btn-disabled {
+background-color: white;
+color: #ccc;
+border: 2px solid #ccc;
+cursor: not-allowed;
+}
+.search-input {
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+.filter-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.produk-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.produk-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+}
+.produk-item img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+.produk-item h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    display: inline-block;
+    border-radius: 5px;
+}
+.available {
+    color: green;
+    border: 1px solid green;
+}
+.sold-out {
+    color: red;
+    border: 1px solid red;
+}
+.search-disabled {
+background-color: white;
+color: #ccc;
+border: 2px solid #ccc;
+font-weight: bold;
+padding: 10px 20px;
+border-radius: 30px;
+cursor: not-allowed;
+}
+
+.search-enabled {
+background-color: orange;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 30px;
+cursor: pointer;
+}
+
+.price-filter {
+display: flex;
+justify-content: center; /* Untuk posisi tengah */
+align-items: center;
+gap: 10px;
+margin-top: 10px;
+flex-wrap: wrap;
+}
+
+.price-filter label {
+font-weight: bold;
+}
+
+.price-filter input {
+border-radius: 30px;
+padding: 10px 20px;
+border: 2px solid #ccc;
+font-weight: bold;
+width: 120px;
+}
