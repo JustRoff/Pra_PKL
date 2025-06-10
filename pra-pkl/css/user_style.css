@@ -31,19 +31,13 @@ nav a {
     margin: 0 10px;
     text-decoration: none;
     color: black;
-    font-size: 17px;
-    font-weight: bold;
+    font-size: 14px;
 }
 
 .profile {
     height: 32px;
     vertical-align: middle;
     /* margin-left: 15px; */
-}
-
-.profile-icon a:hover{
-    color: rgb(248, 198, 33);
-    background-color: transparent
 }
 
 main {
@@ -75,7 +69,7 @@ main h1 {
     transition: all 0.2s ease;
 }
 
-.user-menu a:hover {
+.admin-menu a:hover {
     color: black;
     background-color: #f0f0f0;
 }
@@ -112,8 +106,4 @@ footer {
     color: #222;
     font-size: 15px;
     font-family: monospace;
-}
-
-.X-icon {
-    color: black;
 }

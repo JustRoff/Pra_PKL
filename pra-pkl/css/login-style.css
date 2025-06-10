@@ -36,18 +36,12 @@ nav a {
     text-decoration: none;
     color: black;
     font-size: 17px;
-    font-weight: bold;
 }
 
 .profile {
     height: 32px;
-    vertical-align: middle;
     /* border-radius: 50%; */
-}
-
-.profile-icon a:hover {
-    color: rgb(248, 198, 33);
-    background-color: transparent;
+    vertical-align: middle;
 }
 
 main {
