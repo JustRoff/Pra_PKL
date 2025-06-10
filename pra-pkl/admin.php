@@ -17,15 +17,14 @@ if (!isset($_SESSION['id_admin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - R&A Figure</title>
     <link rel="stylesheet" href="css/admin-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
         <img src="img/logo/logo.png" alt="R&A Logo" srcset="" class="logo" >
         <nav>
             <div class="profile-icon">    
-                <a href="dashboard.php">Add Product</a>
-                <a href="DaftarProduk.php">Products</a>
+                <a href="dashboard.php" style="font-size: 17px;">Add Product</a>
+                <a href="DaftarProduk.php" style="font-size: 17px;">Products</a>
                 <a href="admin.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
             </div>
         </nav>
@@ -46,9 +45,9 @@ if (!isset($_SESSION['id_admin'])) {
         <div class="footer-left">
             <p>Official Social Media Account</p>
             <div class="social-icons">
-                <a href="https://x.com/" class="x-icon"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.youtube.com/" class="yt-icon"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://www.instagram.com/" class="ig-icon"><i class="fa-brands fa-instagram"></i></a>
+                <img src="img/footer/twitter.png" alt="X">
+                <img src="img/footer/youtube.png" alt="YouTube">
+                <img src="img/footer/instagram.png" alt="Instagram">
             </div>
         </div>
         <div class="footer-right">

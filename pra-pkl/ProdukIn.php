@@ -2,7 +2,7 @@
 include "koneksi.php";
 session_start();
 
-if (!isset($_SESSION['id_admin']) && !isset($_SESSION['username'])) {
+if (!isset($_SESSION['id_admin']) && !isset($_SESSION['id_user'])) {
     header("Location:login.php?Logindulu");
     exit;
 }
@@ -22,6 +22,7 @@ while($produk=mysqli_fetch_assoc($query)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="produk.css">
+    <script src=""></script>
 </head>
 <body>
 <div class="produk-container">
@@ -38,8 +39,15 @@ while($produk=mysqli_fetch_assoc($query)) {
       <div class="available" style="color:red;">Out of Stock</div>
     <?php endif; ?>
     <div class="buttons">
-      <button>Buy Now</button>
-      <button>Add to Cart</button>
+      
+    <form action="proses_keranjang.php" method="post">
+      <label for="">Qty</label>
+      <input type="number" name="jumlah_item" min="1" max="<?=$produk['stok']?>" id="">
+      <input type="hidden" name="id_produk" value="<?=$produk['id_produk']?>">
+      <input type="hidden" name="id_user" value="<?= $_SESSION['id_user'] ?>">
+      <button type="submit"class="btn-orange">Add to Cart</button>
+    </form>
+
     </div>
   </div>
 </div>
@@ -59,6 +67,7 @@ while($produk=mysqli_fetch_assoc($query)) {
     <tr><td>Rating</td><td><?= $produk['rating'] ?>/5</td></tr>
   </table>
 </div>
+<a href="keranjang.php"><button>keranjang</button></a>
 
 </body>
 </html>

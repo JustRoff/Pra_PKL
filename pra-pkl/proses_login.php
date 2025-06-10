@@ -15,8 +15,7 @@ if (mysqli_num_rows($query_admin)) {
     $admin = mysqli_fetch_assoc($query_admin);
     $_SESSION['id_admin'] = $admin['id_admin'];
     $_SESSION['adminname'] = $admin['username'];
-    $_SESSION['role'] = 'admin';
-    header("Location: admin.php?status=admin");
+    header("Location: admin.php?Login=S");
     exit;
 }
 
@@ -24,8 +23,7 @@ elseif (mysqli_num_rows($query_users)) {
     $user = mysqli_fetch_assoc($query_users);
     $_SESSION['id_user'] = $user['id_user']; 
     $_SESSION['username'] = $user['username']; 
-    $_SESSION['role'] = 'user';
-    header("Location: index.php?status=user");
+    header("Location: index.php?Login=S");
     exit;
 }
 
