@@ -7,6 +7,7 @@ if (!isset($_SESSION['id_user'])) {
     exit;
 }
 
+$_SESSION['from_page'] = 'keranjang.php';
 $id_user = $_SESSION['id_user'];    
 
 $sql = "SELECT  keranjang.id_keranjang,
@@ -29,28 +30,29 @@ $jumlah_keranjang = mysqli_num_rows($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cart</title>
     <link rel="stylesheet" href="css/keranjang.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
         <img src="img/logo/logo.png" alt="R&A Logo" srcset="" class="logo" >
         <nav>
             <div class="profile-icon">    
-                <a href="dashboard.php" style="font-size: 17px;">Add Product</a>
-                <a href="DaftarProduk.php" style="font-size: 17px;">Products</a>
-                <a href="admin.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
+                <a href="DaftarProduk.php">Products</a>
+                <a href="keranjang.php">Cart</a>
+                <a href="cek_profil.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
             </div>
         </nav>
     </header>
 
-    <body>
+    <main>
         <form action="transaksi.php" method="POST">
         <?php if ($jumlah_keranjang > 0 ) { ?>
             <?php while ($keranjang = mysqli_fetch_assoc($query)) { ?>
                 <div class="cart-item">
                     <!-- ✅ Checkbox untuk pilih item -->
-                    <input type="checkbox" class="select-item" name="checkout_items[]" value="<?= $keranjang['id_keranjang'] ?>">
+                    <input type="checkbox" class="select-item" name="checkout_items[]" value="<?= $keranjang['id_produk'] ?>">
 
                     <div class="product-image">
                         <img src="gambar_produk/<?= $keranjang['gambar'] ?>" alt="<?= $keranjang['nama_produk'] ?>" width="100">
@@ -59,14 +61,14 @@ $jumlah_keranjang = mysqli_num_rows($query);
                         <a href="produk.php?id_produk=<?= $keranjang['id_produk'] ?>">
                             <h4><?= $keranjang['nama_produk'] ?></h4>
                         </a>
-                        <p>IDR <?= number_format($keranjang['harga'], 0, ',', '.') ?></p>
+                        <p>Rp<?= number_format($keranjang['harga'], 0, ',', '.') ?></p>
                     </div>
                     <div class="product-actions">
                         <div class="quantity">
                             <button class="btn-minus" type="button">-</button>
                             <input type="number"
                                 class="qty"
-                                min="1"
+                                min="0"
                                 max="<?=$keranjang['stok']?>"
                                 value="<?= $keranjang['jumlah_item'] ?>"
                                 data-harga="<?= $keranjang['harga'] ?>"
@@ -74,7 +76,7 @@ $jumlah_keranjang = mysqli_num_rows($query);
                             <button class="btn-plus" type="button">+</button>
                         </div>
                         <div class="subtotal">
-                            <strong>IDR <?= number_format($keranjang['subtotal'], 0, ',', '.') ?></strong>
+                            <strong>Rp<?= number_format($keranjang['subtotal'], 0, ',', '.') ?></strong>
                         </div>
                         <button class="btn-delete" type="button" data-id="<?= $keranjang['id_keranjang'] ?>">Hapus</button>
                     </div>
@@ -82,25 +84,24 @@ $jumlah_keranjang = mysqli_num_rows($query);
             <?php } ?>
             
         <div id="total-bayar" style="margin-top: 20px;">
-            Total Bayar: <strong id="total-text">Rp 0</strong>
+            Total Bayar: <strong id="total-text">Rp0</strong>
         </div>
 
             <button type="submit" style="margin-top: 20px;">Checkout Produk Terpilih</button>
         <?php } else { ?>
             <p>Kamu belum belanja apapun</p>
-            <a href="DaftarProduk.php">Khilaf yuk</a>
         <?php } ?>
         </form>
             <a href="DaftarProduk.php">nambah yuk</a>
-    </body>
+    </main>
 
     <footer>
         <div class="footer-left">
             <p>Official Social Media Account</p>
             <div class="social-icons">
-                <img src="img/footer/twitter.png" alt="X">
-                <img src="img/footer/youtube.png" alt="YouTube">
-                <img src="img/footer/instagram.png" alt="Instagram">
+                <a href="https://x.com/" class="x-icon"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/" class="yt-icon"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/" class="ig-icon"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
         <div class="footer-right">
@@ -108,6 +109,6 @@ $jumlah_keranjang = mysqli_num_rows($query);
             <a href="homepage.php">R&A Figure Store</a>
         </div>
     </footer>
-<script src="script/keranjang.js?<?=time() ?>"></script>
+    <script src="script/keranjang.js?<?=time() ?>"></script>
 </body>
 </html>

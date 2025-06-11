@@ -7,13 +7,21 @@ if (!isset($_SESSION['id_user'])) {
     exit; 
 }  
 
-$id_user = $_SESSION['id_user'];  
+$id_user = $_SESSION['id_user'];
 
-// ✅ Cek apakah ada produk yang dipilih dari form checkout
+// ✅ Cek apakah ada produk yang dipilih dari form checkout atau dari session
 if (isset($_POST['checkout_items']) && !empty($_POST['checkout_items'])) {
     $selected_items = $_POST['checkout_items'];
     // Sanitasi untuk keamanan - pastikan semua nilai adalah angka
     $selected_items = array_map('intval', $selected_items);
+    
+    // Simpan ke session untuk digunakan nanti
+    $_SESSION['checkout_items'] = $selected_items;
+    
+    $selected_ids = implode(',', $selected_items);
+} elseif (isset($_SESSION['checkout_items']) && !empty($_SESSION['checkout_items'])) {
+    // Ambil dari session jika tidak ada POST data
+    $selected_items = $_SESSION['checkout_items'];
     $selected_ids = implode(',', $selected_items);
 } else {
     // Jika tidak ada item yang dipilih, redirect kembali ke keranjang
@@ -26,14 +34,57 @@ $sql = "SELECT * FROM alamat WHERE id_user = '$id_user'";
 $query = mysqli_query($koneksi, $sql); 
 $jumlah_alamat = mysqli_num_rows($query);
 
-// Variabel untuk menyimpan alamat yang dipilih
+// Variabel untuk menyimpan alamat yang dipilih dan ongkir
 $alamat_terpilih = '';
+$ongkir = 0;
+$pulau_terpilih = '';
+
 if (isset($_POST['alamat_id'])) {
     $alamat_id = $_POST['alamat_id'];
     $sql_alamat = "SELECT * FROM alamat WHERE id_alamat = '$alamat_id' AND id_user = '$id_user'";
     $result_alamat = mysqli_query($koneksi, $sql_alamat);
     if ($data_alamat = mysqli_fetch_assoc($result_alamat)) {
         $alamat_terpilih = $data_alamat['nama_alamat'] . " - " . $data_alamat['deskripsi'];
+        $pulau_terpilih = strtolower($data_alamat['Pulau']);
+        
+        // Simpan alamat yang dipilih ke session
+        $_SESSION['selected_alamat_id'] = $alamat_id;
+        
+        // ✅ Hitung ongkir berdasarkan pulau
+        $ongkir_rates = [
+            'jawa' => 10000,
+            'sumatra' => 15000,
+            'sulawesi' => 20000,
+            'kalimantan' => 25000,
+            'bali' => 30000,
+            'nusa tenggara' => 35000,
+            'maluku' => 40000,
+            'papua' => 45000
+        ];
+        
+        $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
+    }
+} elseif (isset($_SESSION['selected_alamat_id'])) {
+    // Ambil alamat yang sudah dipilih sebelumnya dari session
+    $alamat_id = $_SESSION['selected_alamat_id'];
+    $sql_alamat = "SELECT * FROM alamat WHERE id_alamat = '$alamat_id' AND id_user = '$id_user'";
+    $result_alamat = mysqli_query($koneksi, $sql_alamat);
+    if ($data_alamat = mysqli_fetch_assoc($result_alamat)) {
+        $alamat_terpilih = $data_alamat['nama_alamat'] . " - " . $data_alamat['deskripsi'];
+        $pulau_terpilih = strtolower($data_alamat['Pulau']);
+        
+        $ongkir_rates = [
+            'jawa' => 10000,
+            'sumatra' => 15000,
+            'sulawesi' => 20000,
+            'kalimantan' => 25000,
+            'bali' => 30000,
+            'nusa tenggara' => 35000,
+            'maluku' => 40000,
+            'papua' => 45000
+        ];
+        
+        $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
     }
 }
 
@@ -47,17 +98,22 @@ $sql_produk = "SELECT keranjang.id_keranjang,
                       FROM keranjang
                 JOIN produk ON keranjang.id_produk = produk.id_produk
                 WHERE keranjang.id_user = '$id_user' 
-                AND keranjang.id_keranjang IN ($selected_ids)";
+                AND produk.id_produk IN ($selected_ids)";
 
 $query_produk = mysqli_query($koneksi, $sql_produk);
 
-// ✅ Hitung total keseluruhan
-$total_keseluruhan = 0;
+// ✅ Hitung total keseluruhan dan jumlah barang
+$subtotal_keseluruhan = 0;
+$total_barang = 0;
 $produk_checkout = [];
 while ($row = mysqli_fetch_assoc($query_produk)) {
     $produk_checkout[] = $row;
-    $total_keseluruhan += $row['subtotal'];
+    $subtotal_keseluruhan += $row['subtotal'];
+    $total_barang += $row['jumlah_item'];
 }
+
+// ✅ Total akhir = subtotal + ongkir
+$total_akhir = $subtotal_keseluruhan + $ongkir;
 ?>
 
 <!DOCTYPE html>
@@ -66,353 +122,23 @@ while ($row = mysqli_fetch_assoc($query_produk)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pilih Alamat Pengiriman</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        /* ✅ Style untuk produk checkout */
-        .produk-checkout {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #f9f9f9;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
-        .produk-checkout .gambar-produk {
-            flex-shrink: 0;
-        }
-
-        .produk-checkout img {
-            border-radius: 5px;
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .produk-checkout .detail-produk {
-            flex: 1;
-        }
-
-        .produk-checkout h4 {
-            color: #333;
-            margin: 0 0 15px 0;
-            font-size: 18px;
-        }
-
-        .produk-checkout .info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .produk-checkout .info-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .produk-checkout .info-label {
-            font-weight: bold;
-            color: #555;
-            min-width: 120px;
-        }
-
-        .produk-checkout .info-value {
-            color: #333;
-            text-align: right;
-        }
-
-        .produk-checkout .subtotal-value {
-            color: #28a745;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        /* ✅ Style untuk total keseluruhan */
-        .total-section {
-            background-color: #e8f5e8;
-            border: 2px solid #28a745;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .total-section h3 {
-            color: #28a745;
-            margin: 0 0 10px 0;
-        }
-
-        .total-amount {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Tombol Pilih Alamat */
-        .btn-pilih-alamat {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-pilih-alamat:hover {
-            background-color: #0056b3;
-        }
-
-        /* Alamat yang dipilih */
-        .alamat-terpilih {
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #e9f7ef;
-            border: 1px solid #27ae60;
-            border-radius: 5px;
-            color: #2c3e50;
-        }
-
-        /* Modal styles tetap sama seperti sebelumnya */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 0;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-            animation: slideIn 0.3s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            max-height: 80vh;
-            overflow: hidden;
-        }
-
-        @keyframes slideIn {
-            from { 
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            padding: 20px 30px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-            position: relative;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            color: #333;
-        }
-
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-
-        .modal-body {
-            padding: 20px 30px;
-            max-height: 50vh;
-            overflow-y: auto;
-        }
-
-        .alamat-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .alamat-item:hover {
-            border-color: #007bff;
-            box-shadow: 0 2px 8px rgba(0,123,255,0.2);
-        }
-
-        .alamat-item.selected {
-            border-color: #28a745;
-            background-color: #f8fff9;
-        }
-
-        .alamat-nama {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .alamat-detail {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        .alamat-telepon {
-            color: #007bff;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .label-default {
-            background-color: #28a745;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 12px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .modal-footer {
-            padding: 15px 30px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            text-align: right;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        .no-alamat {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-        }
-
-        .btn-tambah-alamat {
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-tambah-alamat:hover {
-            background-color: #218838;
-            text-decoration: none;
-            color: white;
-        }
-
-        .btn-tambah-modal {
-            background-color: #28a745;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            margin-left: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-tambah-modal:hover {
-            background-color: #218838;
-            text-decoration: none;
-            color: white;
-        }
-
-        /* ✅ Tombol kembali */
-        .btn-kembali {
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .btn-kembali:hover {
-            background-color: #545b62;
-            text-decoration: none;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="css/transaksi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="container">
+    <header>
+        <a href="homepage.php"><img src="img/logo/logo.png" alt="R&A Logo" srcset="" class="logo" ></a>
+        <nav>
+            <div class="profile-icon">    
+                <a href="DaftarProduk.php">Products</a>
+                <a href="keranjang.php">Cart</a>
+                <a href="cek_profil.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
         <!-- ✅ Tombol kembali ke keranjang -->
         <a href="keranjang.php" class="btn-kembali">← Kembali ke Keranjang</a>
         
@@ -437,6 +163,7 @@ while ($row = mysqli_fetch_assoc($query_produk)) {
                 <div class="alamat-terpilih">
                     <strong>Alamat Pengiriman:</strong><br>
                     <?php echo htmlspecialchars($alamat_terpilih); ?>
+                    <br><strong>Pulau:</strong> <?php echo ucwords($pulau_terpilih); ?>
                 </div>
             <?php endif; ?>
         </form>
@@ -454,7 +181,7 @@ while ($row = mysqli_fetch_assoc($query_produk)) {
                         
                         <div class="info-item">
                             <span class="info-label">Harga Satuan:</span>
-                            <span class="info-value">IDR <?= number_format($produk['harga'], 0, ',', '.') ?></span>
+                            <span class="info-value">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></span>
                         </div>
                         
                         <div class="info-item">
@@ -464,69 +191,149 @@ while ($row = mysqli_fetch_assoc($query_produk)) {
                         
                         <div class="info-item">
                             <span class="info-label">Subtotal:</span>
-                            <span class="info-value subtotal-value">IDR <?= number_format($produk['subtotal'], 0, ',', '.') ?></span>
+                            <span class="info-value subtotal-value">Rp<?= number_format($produk['subtotal'], 0, ',', '.') ?></span>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
 
-            <!-- ✅ Total keseluruhan -->
-            <div class="total-section">
-                <h3>Total Pembayaran</h3>
-                <div class="total-amount">IDR <?= number_format($total_keseluruhan, 0, ',', '.') ?></div>
+            <div class="payment">
+                <!-- ✅ Ringkasan Pembayaran -->
+                <div class="payment-summary">
+                    <h3>Ringkasan Pembayaran</h3>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Subtotal Produk :</span>
+                        <span class="summary-value">Rp<?= number_format($subtotal_keseluruhan, 0, ',', '.') ?></span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Total Barang :</span>
+                        <span class="summary-value"><?= $total_barang ?> item</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Ongkos Kirim <?= $pulau_terpilih ? ' ('.ucwords($pulau_terpilih).')' : '' ?>:</span>
+                        <span class="summary-value">
+                            <?php if ($ongkir > 0): ?>
+                                IDR <?= number_format($ongkir, 0, ',', '.') ?>
+                            <?php else: ?>
+                                <em>Pilih alamat untuk melihat ongkir</em>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                    
+                    <div class="summary-item total-final">
+                        <span class="summary-label">Total Pembayaran :</span>
+                        <span class="summary-value">Rp<?= number_format($total_akhir, 0, ',', '.') ?></span>
+                    </div>
+                </div>
             </div>
+
+            <!-- ✅ Tombol lanjut ke pembayaran -->
+            <?php if (!empty($alamat_terpilih)): ?>
+                <form method="POST" action="proses_checkout.php">
+                    <!-- Kirim semua data yang diperlukan -->
+                    <input type="hidden" name="alamat_id" value="<?= $_POST['alamat_id'] ?? '' ?>">
+                    <input type="hidden" name="subtotal" value="<?= $subtotal_keseluruhan ?>">
+                    <input type="hidden" name="ongkir" value="<?= $ongkir ?>">
+                    <input type="hidden" name="total_akhir" value="<?= $total_akhir ?>">
+                    <input type="hidden" name="total_barang" value="<?= $total_barang ?>">
+                    
+                    <?php foreach ($selected_items as $item_id): ?>
+                        <input type="hidden" name="checkout_items[]" value="<?= $item_id ?>">
+                    <?php endforeach; ?>
+                    
+                    <button type="submit" class="btn-lanjut-bayar">
+                        Lanjut ke Pembayaran - Rp<?= number_format($total_akhir, 0, ',', '.') ?>
+                    </button>
+                </form>
+            <?php else: ?>
+                <button type="button" class="btn-lanjut-bayar" disabled>
+                    ⚠ Pilih Alamat Terlebih Dahulu
+                </button>
+            <?php endif; ?>
+
         <?php else: ?>
             <p>Tidak ada produk yang dipilih.</p>
             <a href="keranjang.php">Kembali ke Keranjang</a>
         <?php endif; ?>
-    </div>
+        </div>
 
-    <!-- Modal Pilih Alamat -->
-    <div id="alamatModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Pilih Alamat Pengiriman</h3>
-                <span class="close" onclick="closeModal('alamatModal')">&times;</span>
-            </div>
-            
-            <div class="modal-body">
-                <?php if ($jumlah_alamat > 0): ?>
-                    <?php 
-                    // Reset pointer query
-                    mysqli_data_seek($query, 0);
-                    while ($alamat = mysqli_fetch_assoc($query)): 
-                    ?>
-                        <div class="alamat-item" onclick="selectAlamat(<?php echo $alamat['id_alamat']; ?>, this)">
-                            <div class="alamat-nama">
-                                <?php echo htmlspecialchars($alamat['nama_alamat']); ?>
+        <!-- Modal Pilih Alamat -->
+        <div id="alamatModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Pilih Alamat Pengiriman</h3>
+                    <span class="close" onclick="closeModal('alamatModal')">&times;</span>
+                </div>
+                
+                <div class="modal-body">
+                    <?php if ($jumlah_alamat > 0): ?>
+                        <?php 
+                        // Reset pointer query
+                        mysqli_data_seek($query, 0);
+                        while ($alamat = mysqli_fetch_assoc($query)): 
+                        ?>
+                            <div class="alamat-item" onclick="selectAlamat(<?php echo $alamat['id_alamat']; ?>, this)">
+                                <div class="alamat-nama">
+                                    <?php echo htmlspecialchars($alamat['nama_alamat']); ?>
+                                    <span style="float: right; background-color: #17a2b8; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px;">
+                                        <?php echo ucwords($alamat['Pulau']); ?>
+                                    </span>
+                                </div>
+                                
+                                <div class="alamat-detail">
+                                    <?php echo htmlspecialchars($alamat['deskripsi']); ?>
+                                </div>
+                                
+                                <!-- ✅ Tampilkan ongkir di modal -->
+                                <div style="margin-top: 8px; color: black; font-weight: bold; font-size: 14px;">
+                                    Ongkir: IDR <?php 
+                                        $pulau_modal = strtolower($alamat['Pulau']);
+                                        $ongkir_modal = isset($ongkir_rates[$pulau_modal]) ? $ongkir_rates[$pulau_modal] : 0;
+                                        echo number_format($ongkir_modal, 0, ',', '.');
+                                    ?>
+                                </div>
                             </div>
-                            
-                            <div class="alamat-detail">
-                                <?php echo htmlspecialchars($alamat['deskripsi']); ?>
-                            </div>
+                        <?php endwhile; ?>
+                        
+                    <?php else: ?>
+                        <div class="no-alamat">
+                            <h4>Belum Ada Alamat</h4>
+                            <p>Anda belum memiliki alamat pengiriman. Silakan tambah alamat terlebih dahulu.</p>
+                            <a href="alamat.php?return=transaksi.php" class="btn-tambah-alamat">Tambah Alamat Baru</a>
                         </div>
-                    <?php endwhile; ?>
-                    
-                <?php else: ?>
-                    <div class="no-alamat">
-                        <h4>Belum Ada Alamat</h4>
-                        <p>Anda belum memiliki alamat pengiriman. Silakan tambah alamat terlebih dahulu.</p>
-                        <a href="alamat.php" class="btn-tambah-alamat">Tambah Alamat Baru</a>
-                    </div>
-                <?php endif; ?>
-            </div>
-            
-            <div class="modal-footer">
-                <a href="alamat.php" class="btn-tambah-modal">+ Tambah Alamat</a>
-                <button type="button" class="btn btn-secondary" onclick="closeModal('alamatModal')">
-                    Batal
-                </button>
-                <button type="button" class="btn btn-primary" onclick="confirmSelection()" id="btnConfirm" disabled>
-                    Pilih Alamat Ini
-                </button>
+                    <?php endif; ?>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="alamat.php?return=transaksi.php" class="btn-tambah-modal">+ Tambah Alamat</a>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('alamatModal')">
+                        Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="confirmSelection()" id="btnConfirm" disabled>
+                        Pilih Alamat Ini
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <p>Official Social Media Account</p>
+            <div class="social-icons">
+                <a href="https://x.com/" class="x-icon"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/" class="yt-icon"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/" class="ig-icon"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-right">
+            <a href="about.php">About Us</a>
+            <a href="homepage.php">R&A Figure Store</a>
+        </div>
+    </footer>
 
 <script src="script/transaksi.js?<?=time() ?>"></script>
 </body>

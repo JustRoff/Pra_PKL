@@ -11,15 +11,16 @@ include "koneksi.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="css/register-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
-        <img src="img/logo/logo.png" alt="R&A Figure Logo" class="logo">
+        <a href="homepage.php"><img src="img/logo/logo.png" alt="R&A Figure Logo" class="logo"></a>
         <nav>
-            <div class="profile_icon">
+            <div class="profile-icon">
                 <a href="about.php">About us</a>
                 <a href="DaftarProduk.php">Products</a>
-                <a href="profile.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
+                <a href="login1.php"><img src="img/user/user.png" alt="Profile Icon" class="profile"></a>
             </div>
         </nav>
     </header>
@@ -56,9 +57,9 @@ include "koneksi.php";
         <div class="footer-left">
             <p>Official Social Media Account</p>
             <div class="social-icons">
-                <img src="img/footer/twitter.png" alt="X">
-                <img src="img/footer/youtube.png" alt="YouTube">
-                <img src="img/footer/instagram.png" alt="Instagram">
+                <a href="https://x.com/" class="x-icon"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/" class="yt-icon"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/" class="ig-icon"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
         <div class="footer-right">
