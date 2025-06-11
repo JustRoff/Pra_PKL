@@ -1,3 +1,404 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #fff;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.logo {
+    padding-left: 20px;
+    width: 200px;
+    height: 65px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.profile {
+    height: 32px;
+    vertical-align: middle;
+    /* margin-left: 15px; */
+}
+
+.profile-icon a:hover {
+    color: rgb(248, 198, 33);
+    background-color: transparent;
+}
+
+main {
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ✅ Style untuk produk checkout */
+.produk-checkout {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.produk-checkout .gambar-produk {
+    flex-shrink: 0;
+}
+
+.produk-checkout img {
+    border-radius: 5px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.produk-checkout .detail-produk {
+    flex: 1;
+}
+
+.produk-checkout h4 {
+    color: #333;
+    margin: 0 0 15px 0;
+    font-size: 18px;
+}
+
+.produk-checkout .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.produk-checkout .info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.produk-checkout .info-label {
+    font-weight: bold;
+    color: #555;
+    min-width: 120px;
+}
+
+.produk-checkout .info-value {
+    color: #333;
+    text-align: right;
+}
+
+.produk-checkout .subtotal-value {
+    color: rgb(248, 198, 33);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.payment {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* ✅ Style untuk total keseluruhan */
+.total-section {
+    background-color: #e8f5e8;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.total-section h3 {
+    color: #28a745;
+    margin: 0 0 10px 0;
+}
+
+.total-amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Tombol Pilih Alamat */
+.btn-pilih-alamat {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-pilih-alamat:hover {
+    color: black;
+    background-color: rgb(228, 175, 0);
+}
+
+/* Alamat yang dipilih */
+.alamat-terpilih {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #0000000a;
+    border: 1px solid rgb(248, 198, 33);
+    border-radius: 5px;
+    color: #2c3e50;
+}
+
+/* Modal styles tetap sama seperti sebelumnya */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideIn 0.3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow: hidden;
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 20px 30px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    position: relative;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-body {
+    padding: 20px 30px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.alamat-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.alamat-item:hover {
+    border-color: black;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+}
+
+.alamat-item.selected {
+    border-color: rgb(248, 198, 33);
+    background-color: #0000000a;
+}
+
+.alamat-nama {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.alamat-detail {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.alamat-telepon {
+    color: #007bff;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.label-default {
+    background-color: #c6c6c6;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.modal-footer {
+    padding: 15px 30px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    text-align: right;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: rgb(228, 175, 0);
+}
+
+.btn-secondary {
+    background-color: rgb(167, 0, 0);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: red;
+}
+
+.no-alamat {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.btn-tambah-alamat {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-tambah-alamat:hover {
+    background-color: rgb(228, 175, 0);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-tambah-modal {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-tambah-modal:hover {
+    background-color: rgb(228, 175, 0);
+    text-decoration: none;
+    color: white;
+}
+
+/* ✅ Tombol kembali */
+.btn-kembali {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.btn-kembali:hover {
+    background-color: #545b62;
+    text-decoration: none;
+    color: white;
+}
+
 /* Container utama daftar alamat */
 .address-container {
     max-width: 700px;
@@ -144,4 +545,42 @@
 
 .select-address-btn button:hover {
     background-color: darkorange;
+}
+
+footer {
+    margin-top: 80px;
+    border-top: 3px solid orange;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer-left a {
+    color: black;
+}
+
+.social-icons img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 20px; /* Jarak antar link */
+    justify-content: flex-end; /* Sejajarkan ke kanan */
+    align-items: center;
+}
+
+.footer-right a {
+    text-decoration: none; /* Hilangkan underline */
+    color: #222;
+    font-size: 15px;
+    font-family: monospace;
 }

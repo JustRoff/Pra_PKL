@@ -1,0 +1,284 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #fff;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.logo {
+    padding-left: 20px;
+    width: 200px;
+    height: 65px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.profile {
+    height: 32px;
+    vertical-align: middle;
+    /* margin-left: 15px; */
+}
+
+.profile-icon a:hover {
+    color: rgb(248, 198, 33);
+    background-color: transparent;
+}
+
+main {
+    margin-top: 20px;
+}
+
+.checkout-container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* ✅ Style untuk daftar produk */
+.product-list {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid rgb(248, 198, 33);
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.product-item img {
+    margin-right: 1%;
+    border-radius: 10%;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-name {
+    font-weight: 500;
+    color: #495057;
+}
+
+.product-details {
+    text-align: right;
+    font-size: 14px;
+}
+
+.product-qty {
+    color: #6c757d;
+    margin-bottom: 2px;
+}
+
+.product-price {
+    margin-bottom: 10%;
+    color: rgb(228, 175, 0);
+    font-weight: bold;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 16px;
+    padding: 8px 0;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    font-size: 18px;
+    border-top: 2px solid #ddd;
+    padding-top: 15px;
+    margin-top: 20px;
+    color: #dc3545;
+}
+
+form {
+    margin-top: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 15px;
+    font-weight: 500;
+    color: #495057;
+}
+
+select, input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+}
+
+select:focus, input[type="file"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+/* ✅ Style untuk info rekening */
+.payment-info {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 8px;
+    border-left: 4px solid #2196f3;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-info h4 {
+    margin: 0 0 10px 0;
+    color: #1565c0;
+    font-size: 16px;
+}
+
+.account-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d32f2f;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin: 10px 0;
+    letter-spacing: 1px;
+    border: 2px dashed #2196f3;
+}
+
+.copy-btn {
+    background: #2196f3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+    transition: background 0.3s;
+}
+
+.copy-btn:hover {
+    background: #1976d2;
+}
+
+.payment-note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+    padding: 8px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 4px;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    text-align: center;
+    background: rgb(248, 198, 33);
+    color: black;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    color: black;
+    background: rgb(228, 175, 0);
+}
+
+footer {
+    margin-top: 80px;
+    border-top: 3px solid orange;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer-left a {
+    color: black;
+}
+
+.social-icons img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 20px; /* Jarak antar link */
+    justify-content: flex-end; /* Sejajarkan ke kanan */
+    align-items: center;
+}
+
+.footer-right a {
+    text-decoration: none; /* Hilangkan underline */
+    color: #222;
+    font-size: 15px;
+    font-family: monospace;
+}

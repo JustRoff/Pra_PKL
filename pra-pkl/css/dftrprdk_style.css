@@ -1,8 +1,12 @@
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
-    padding: 20px;
-    background-color: #f8f8f8;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #fff;
 }
 
 header {
@@ -27,7 +31,8 @@ nav a {
     margin: 0 10px;
     text-decoration: none;
     color: black;
-    font-size: 14px;
+    font-size: 17px;
+    font-weight: bold;
 }
 
 .profile {
@@ -36,6 +41,17 @@ nav a {
     /* margin-left: 15px; */
 }
 
+.profile-icon a:hover{
+    color: rgb(248, 198, 33);
+    background-color: transparent
+}
+
+h1 {
+    text-align: center;
+    margin: 2%;
+}
+
+/* Bagian Searching */
 .search-bar {
     text-align: center;
     margin-bottom: 10px;
@@ -48,36 +64,37 @@ nav a {
     margin-bottom: 10px;
 }
 .rounded-button {
-border-radius: 30px;
-padding: 10px 20px;
-font-weight: bold;
-border: none;
-cursor: pointer;
-transition: 0.3s ease;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .btn-orange {
-background-color: orange;
-color: white;
+    background-color: orange;
+    color: white;
 }
 
 .btn-orange:hover {
-background-color: darkorange;
+    background-color: darkorange;
 }
 
 
 .btn-gray {
-background-color: gray;
-color: white;
+    background-color: gray;
+    color: white;
 }
 
 
 .btn-disabled {
-background-color: white;
-color: #ccc;
-border: 2px solid #ccc;
-cursor: not-allowed;
-}
+    background-color: white;
+    color: #ccc;
+    border: 2px solid #ccc;
+    cursor: not-allowed;
+    }
+
 .search-input {
     padding: 10px;
     border-radius: 30px;
@@ -110,9 +127,13 @@ cursor: not-allowed;
     text-align: center;
 }
 .produk-item img {
-    max-width: 100%;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;  
     border-radius: 5px;
+    max-width: 100%;
 }
+
 .produk-item h3 {
     margin: 10px 0;
     font-size: 18px;
@@ -131,44 +152,71 @@ cursor: not-allowed;
     color: red;
     border: 1px solid red;
 }
+
 .search-disabled {
-background-color: white;
-color: #ccc;
-border: 2px solid #ccc;
-font-weight: bold;
-padding: 10px 20px;
-border-radius: 30px;
-cursor: not-allowed;
+    background-color: white;
+    color: #ccc;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: not-allowed;
 }
 
 .search-enabled {
-background-color: orange;
-color: white;
-border: none;
-padding: 10px 20px;
-border-radius: 30px;
-cursor: pointer;
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
 .price-filter {
-display: flex;
-justify-content: center; /* Untuk posisi tengah */
-align-items: center;
-gap: 10px;
-margin-top: 10px;
-flex-wrap: wrap;
+    display: flex;
+    justify-content: center; /* Untuk posisi tengah */
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .price-filter label {
-font-weight: bold;
+    font-weight: bold;
 }
 
 .price-filter input {
-border-radius: 30px;
-padding: 10px 20px;
-border: 2px solid #ccc;
-font-weight: bold;
-width: 120px;
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    width: 120px;
+}
+
+.month-filter {
+    display: flex;
+    justify-content: center; /* Untuk posisi tengah */
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.month-filter label {
+    font-weight: bold;
+}
+
+.month-filter input {
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    font-weight: bold;
+    width: 120px;
+}
+
+.error {
+    width: 300px;
+    height: 200px;
 }
 
 footer {
@@ -184,6 +232,10 @@ footer {
 .footer-left p {
     margin-bottom: 10px;
     font-size: 15px;
+}
+
+.footer-left a {
+    color: black;
 }
 
 .social-icons img {

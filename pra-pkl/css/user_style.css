@@ -31,13 +31,19 @@ nav a {
     margin: 0 10px;
     text-decoration: none;
     color: black;
-    font-size: 14px;
+    font-size: 17px;
+    font-weight: bold;
 }
 
 .profile {
     height: 32px;
     vertical-align: middle;
     /* margin-left: 15px; */
+}
+
+.profile-icon a:hover{
+    color: rgb(248, 198, 33);
+    background-color: transparent
 }
 
 main {
@@ -69,7 +75,7 @@ main h1 {
     transition: all 0.2s ease;
 }
 
-.admin-menu a:hover {
+.user-menu a:hover {
     color: black;
     background-color: #f0f0f0;
 }
@@ -89,6 +95,10 @@ footer {
     font-size: 15px;
 }
 
+.footer-left a {
+    color: black;
+}
+
 .social-icons img {
     height: 24px;
     margin-right: 10px;
@@ -106,4 +116,8 @@ footer {
     color: #222;
     font-size: 15px;
     font-family: monospace;
+}
+
+.X-icon {
+    color: black;
 }

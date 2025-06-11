@@ -1,21 +1,50 @@
 * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Courier New', Courier, monospace;
-    }
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #fff;
+}
 
 header {
-      position: sticky;
-      top: 0;
-      background: white;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.logo {
+    padding-left: 20px;
+    width: 200px;
+    height: 65px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.profile {
+    height: 32px;
+    vertical-align: middle;
+    /* margin-left: 15px; */
+}
+
+.profile-icon a:hover {
+    color: rgb(248, 198, 33);
+    background-color: transparent;
+}
 
 .carousel-container {
       position: relative;
@@ -114,3 +143,37 @@ header {
       font-size: 16px;
       cursor: pointer;
     }
+
+footer {
+    margin-top: 80px;
+    border-top: 3px solid orange;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.social-icons img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 20px; /* Jarak antar link */
+    justify-content: flex-end; /* Sejajarkan ke kanan */
+    align-items: center;
+}
+
+.footer-right a {
+    text-decoration: none; /* Hilangkan underline */
+    color: #222;
+    font-size: 15px;
+    font-family: monospace;
+}

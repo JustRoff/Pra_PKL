@@ -1,5 +1,5 @@
 * {
-     margin: 0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Courier New', Courier, monospace;
@@ -17,26 +17,33 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    padding: 10px 10px;
     z-index: 1000;
 }
 
 .logo {
-    width: 200px;
+    padding-left: 20px;
+    width: 220px;
     height: 65px;
 }
 
 nav a {
     margin: 0 10px;
     text-decoration: none;
-    color: #222;
-    font-size: 14px;
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
 }
 
-.user-icon {
+.profile {
     height: 32px;
     vertical-align: middle;
-    margin-left: 15px;
+    /* margin-left: 15px; */
+}
+
+.profile-icon a:hover {
+    color: rgb(248, 198, 33);
+    background-color: transparent;
 }
 
 main {
@@ -45,32 +52,50 @@ main {
 }
 
 main h1 {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 28px;
 }
 
-.admin-menu {
-    display: grid;
-    grid-template-columns: repeat(2, 200px);
-    gap: 20px;
-    justify-content: center;
+.deskripsi {
+    padding-bottom: 30px;
+    font-size: 20px;
 }
 
-.admin-menu a {
+/* h3 {
+    margin-bottom: 5%;
+} */
+
+.adm {
+    margin-top: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.container   {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    border-bottom: 1px solid #999;
-    text-decoration: none;
-    color: #222;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px;
+    box-sizing: border-box; 
 }
 
-.admin-menu a:hover {
-    color: black;
-    background-color: #f0f0f0;
+.admin-person {
+    text-align: center;
+    max-width: 200px;
+}
+
+.admin-person img {
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.admin-person p {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #333;
 }
 
 footer {
@@ -86,6 +111,10 @@ footer {
 .footer-left p {
     margin-bottom: 10px;
     font-size: 15px;
+}
+
+.footer-left a {
+    color: black;
 }
 
 .social-icons img {
