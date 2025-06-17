@@ -23,7 +23,7 @@ $folder_tujuan = "gambar_produk/";
 move_uploaded_file($gambar_tmp,$folder_tujuan.$gambar_name);
 
 
-$sql = "INSERT INTO produk(nama_produk, kategori, tanggal_terbit, harga, id_admin, manufacturer, stok, rating,deskrips,gambar) 
+$sql = "INSERT INTO produk(nama_produk, kategori, tanggal_terbit, harga, id_admin, manufacturer, stok, rating, deskripsi, gambar) 
         VALUES ('$nama_produk', '$kategori', '$tanggal_terbit', '$harga', '$id_admin', '$manufacturer', '$stok', '$rating','$deskripsi','$gambar_name')";
 
 $query = mysqli_query($koneksi,$sql);
