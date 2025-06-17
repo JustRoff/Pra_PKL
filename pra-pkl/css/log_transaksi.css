@@ -1,0 +1,276 @@
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #fff;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.logo {
+    padding-left: 20px;
+    width: 200px;
+    height: 65px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.profile {
+    height: 32px;
+    vertical-align: middle;
+    /* margin-left: 15px; */
+}
+
+.profile-icon a:hover {
+    color: rgb(248, 198, 33);
+    background-color: transparent;
+}
+
+main {
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.transaction-list {
+    padding: 20px;
+}
+
+.transaction-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.transaction-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.transaction-summary {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction-info {
+    flex: 1;
+}
+
+.transaction-date {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.product-preview {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.more-products {
+    color: #007bff;
+    font-size: 0.9em;
+}
+
+.transaction-total {
+    text-align: right;
+}
+
+.total-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.status {
+    font-size: 0.8em;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.status.belum-dikirim {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.dikirim {
+    background: #d4edda;
+    color: #155724;
+}
+
+.transaction-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: white;
+    border-top: 1px solid #e9ecef;
+}
+
+.transaction-details.active {
+    max-height: 500px;
+}
+
+.details-content {
+    padding: 20px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.product-quantity {
+    text-align: right;
+    font-weight: bold;
+}
+
+.no-transactions {
+    text-align: center;
+    padding: 50px 20px;
+    color: #666;
+}
+
+.no-transactions img {
+    width: 100px;
+    opacity: 0.5;
+    margin-bottom: 20px;
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+    color: #666;
+}
+
+.transaction-item.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+footer {
+    margin-top: 80px;
+    border-top: 3px solid orange;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer-left a {
+    color: black;
+}
+
+.social-icons img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 20px; /* Jarak antar link */
+    justify-content: flex-end; /* Sejajarkan ke kanan */
+    align-items: center;
+}
+
+.footer-right a {
+    text-decoration: none; /* Hilangkan underline */
+    color: #222;
+    font-size: 15px;
+    font-family: monospace;
+}
