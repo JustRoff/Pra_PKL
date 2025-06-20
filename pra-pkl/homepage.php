@@ -37,6 +37,9 @@ $result_produk = mysqli_query($koneksi, $query_produk);
                     <img src="img/sample product/carousel/crsl1.webp" alt="Banner 1">
                     <img src="img/sample product/carousel/crsl2.webp" alt="Banner 2">
                     <img src="img/sample product/carousel/crsl3.webp" alt="Banner 3">
+                    <img src="img/sample product/carousel/crsl6.webp" alt="Banner 6">
+                    <img src="img/sample product/carousel/crsl4.webp" alt="Banner 4">
+                    <img src="img/sample product/carousel/crsl5.webp" alt="Banner 5">
                 </div>
         </div>
 
