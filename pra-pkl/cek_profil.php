@@ -8,8 +8,7 @@ if ($_SESSION['role'] === 'admin') {
     header("location: user.php");
     exit();
 } else {
-    header("location : login1.php?SilahkanLoginDulu");
-    exit;
+    header("location: login1.php?=SilahkanLoginDulu");
 }
 
 ?>
