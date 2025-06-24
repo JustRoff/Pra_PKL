@@ -32,7 +32,7 @@ if ($_FILES['gambar']['name'] != "") {
     $gambar_baru = $gambar_lama;
 }
 
-$sql = "UPDATE produk SET nama_produk='$nama_produk',kategori='$kategori',manufacturer='$manufacturer',tanggal_terbit='$tanggal_terbit',
+$sql = "UPDATE produk SET nama_produk='$nama_produk',id_kategori='$kategori',id_manufacturer='$manufacturer',tanggal_terbit='$tanggal_terbit',
         harga='$harga',stok='$stok',rating='$rating',deskripsi ='$deskripsi',id_admin='$id_admin',gambar='$gambar_baru' WHERE id_produk='$id_produk'";
 
 $query = mysqli_query($koneksi, $sql);
