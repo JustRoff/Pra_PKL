@@ -28,19 +28,12 @@
         <form method="POST" action="proses_alamat.php">
             <label for="">Nama alamat</label>
             <input type="text" name="nama_alamat" id="" required>        
-            <!-- Search Location -->
-            <label for="locationSearch">Cari Patokan Terdekat di Indonesia:</label>
-            <div class="search-container">
-                <input type="text" id="locationSearch">
-                <div class="search-results" id="searchResults"></div>
-            </div>
                     
             <!-- Coordinate Display -->
             <div class="coordinates-display" id="coordinatesDisplay">
                 <strong>Koordinat Terpilih (Indonesia):</strong><br>
                 Latitude: <span id="displayLat">Belum dipilih</span><br>
                 Longitude: <span id="displayLng">Belum dipilih</span><br>
-                <small>Pulu: <span id="displayProvince">-</span></small>
             </div>
             
             <!-- Hidden inputs for form submission -->

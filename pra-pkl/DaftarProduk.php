@@ -54,16 +54,16 @@ if (!empty($end_month)) {
 
 switch ($sort) {
     case 'oldest':
-        $sql_produk .= " ORDER BY tanggal_terbit ASC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), tanggal_terbit ASC";
         break;
     case 'highest_price':
-        $sql_produk .= " ORDER BY harga DESC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), harga DESC";
         break;
     case 'lowest_price':
-        $sql_produk .= " ORDER BY harga ASC";
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), harga ASC";
         break;
     default:
-        $sql_produk .= " ORDER BY tanggal_terbit DESC"; // default = latest
+        $sql_produk .= " ORDER BY (CASE WHEN stok > 0 THEN 0 ELSE 1 END), tanggal_terbit DESC"; // default = latest
         break;
 }
 $query = mysqli_query($koneksi, $sql_produk);

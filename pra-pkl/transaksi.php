@@ -36,7 +36,7 @@ $jumlah_alamat = mysqli_num_rows($query);
 
 // Variabel untuk menyimpan alamat yang dipilih dan ongkir
 $alamat_terpilih = '';
-$ongkir = 0;
+$ongkir = 30000;
 $pulau_terpilih = '';
 
 if (isset($_POST['alamat_id'])) {
@@ -51,18 +51,18 @@ if (isset($_POST['alamat_id'])) {
         $_SESSION['selected_alamat_id'] = $alamat_id;
         
         // ✅ Hitung ongkir berdasarkan pulau
-        $ongkir_rates = [
-            'jawa' => 10000,
-            'sumatra' => 15000,
-            'sulawesi' => 20000,
-            'kalimantan' => 25000,
-            'bali' => 30000,
-            'nusa tenggara' => 35000,
-            'maluku' => 40000,
-            'papua' => 45000
-        ];
+        // $ongkir_rates = [
+        //     'jawa' => 10000,
+        //     'sumatra' => 15000,
+        //     'sulawesi' => 20000,
+        //     'kalimantan' => 25000,
+        //     'bali' => 30000,
+        //     'nusa tenggara' => 35000,
+        //     'maluku' => 40000,
+        //     'papua' => 45000
+        // ];
         
-        $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
+        // $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
     }
 } elseif (isset($_SESSION['selected_alamat_id'])) {
     // Ambil alamat yang sudah dipilih sebelumnya dari session
@@ -73,18 +73,18 @@ if (isset($_POST['alamat_id'])) {
         $alamat_terpilih = $data_alamat['nama_alamat'] . " - " . $data_alamat['deskripsi'];
         $pulau_terpilih = strtolower($data_alamat['Pulau']);
         
-        $ongkir_rates = [
-            'jawa' => 10000,
-            'sumatra' => 15000,
-            'sulawesi' => 20000,
-            'kalimantan' => 25000,
-            'bali' => 30000,
-            'nusa tenggara' => 35000,
-            'maluku' => 40000,
-            'papua' => 45000
-        ];
+        // $ongkir_rates = [
+        //     'jawa' => 10000,
+        //     'sumatra' => 15000,
+        //     'sulawesi' => 20000,
+        //     'kalimantan' => 25000,
+        //     'bali' => 30000,
+        //     'nusa tenggara' => 35000,
+        //     'maluku' => 40000,
+        //     'papua' => 45000
+        // ];
         
-        $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
+        // $ongkir = isset($ongkir_rates[$pulau_terpilih]) ? $ongkir_rates[$pulau_terpilih] : 0;
     }
 }
 
@@ -163,7 +163,6 @@ $total_akhir = $subtotal_keseluruhan + $ongkir;
                 <div class="alamat-terpilih">
                     <strong>Alamat Pengiriman:</strong><br>
                     <?php echo htmlspecialchars($alamat_terpilih); ?>
-                    <br><strong>Pulau:</strong> <?php echo ucwords($pulau_terpilih); ?>
                 </div>
             <?php endif; ?>
         </form>
@@ -215,11 +214,7 @@ $total_akhir = $subtotal_keseluruhan + $ongkir;
                     <div class="summary-item">
                         <span class="summary-label">Ongkos Kirim <?= $pulau_terpilih ? ' ('.ucwords($pulau_terpilih).')' : '' ?>:</span>
                         <span class="summary-value">
-                            <?php if ($ongkir > 0): ?>
-                                IDR <?= number_format($ongkir, 0, ',', '.') ?>
-                            <?php else: ?>
-                                <em>Pilih alamat untuk melihat ongkir</em>
-                            <?php endif; ?>
+                        Rp<?= number_format($ongkir, 0, ',', '.') ?>
                         </span>
                     </div>
                     
@@ -278,23 +273,12 @@ $total_akhir = $subtotal_keseluruhan + $ongkir;
                             <div class="alamat-item" onclick="selectAlamat(<?php echo $alamat['id_alamat']; ?>, this)">
                                 <div class="alamat-nama">
                                     <?php echo htmlspecialchars($alamat['nama_alamat']); ?>
-                                    <span style="float: right; background-color: #17a2b8; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px;">
-                                        <?php echo ucwords($alamat['Pulau']); ?>
-                                    </span>
                                 </div>
                                 
                                 <div class="alamat-detail">
                                     <?php echo htmlspecialchars($alamat['deskripsi']); ?>
                                 </div>
-                                
-                                <!-- ✅ Tampilkan ongkir di modal -->
-                                <div style="margin-top: 8px; color: black; font-weight: bold; font-size: 14px;">
-                                    Ongkir: IDR <?php 
-                                        $pulau_modal = strtolower($alamat['Pulau']);
-                                        $ongkir_modal = isset($ongkir_rates[$pulau_modal]) ? $ongkir_rates[$pulau_modal] : 0;
-                                        echo number_format($ongkir_modal, 0, ',', '.');
-                                    ?>
-                                </div>
+
                             </div>
                         <?php endwhile; ?>
                         
